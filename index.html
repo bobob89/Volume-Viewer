@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="MyApp">
+<head>
+	<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+	<link rel="icon" href="/favicon.ico" type="image/x-icon">
+	<base href="/">
+	<title>Volume viewer ver 0.02</title>
+	<link rel="stylesheet" href="main.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+
+	<style>
+		[my\:cloak], [my-cloak], [data-my-cloak], [x-my-cloak], .my-cloak, .x-my-cloak {
+			display: none !important;
+		}
+	</style>
+</head>
+
+<body ng-cloak>
+	<main>
+		<div>
+			<div class="row">
+				<div class="col-sm-3" ng-controller="MainController">
+					<table class="w3-bordered w3-small">
+						<tbody>
+							<tr>
+								<td>Long|VLM</td>
+								<td><input type="number" ng-model="volume"></td>
+								<td>{{price * volume | currency: '$ '}}</td>
+							</tr>
+							<tr>
+								<td>Price</td>
+								<td><input type="number" ng-model="price"></td>
+							</tr>
+							<tr>
+								<td>Fee 1</td>
+								<td><input type="number" ng-model="fee1"></td>
+							</tr>
+							<tr>
+								<td>Fee 2</td>
+								<td><input type="number" ng-model="fee2"></td>
+							</tr>
+							<tr>
+								<td>Min out</td>
+								<td>{{price + ((price * fee1) + (price * fee2)) | currency: '$ '}}</td>								
+							</tr>
+							<tr>
+								<td>1% Take</td>
+								<td>{{price + ((price * 0.01)) | currency: '$ '}}</td>
+								<td>{{(((price + ((price * 0.015))) * volume) - (price * volume)) - ((((price + ((price * 0.01))) * volume) * fee1) +  ((price * volume) * fee2)) | currency: '$ '}}</td>
+							</tr>		
+							<tr>
+								<td>2% Take</td>
+								<td>{{price + ((price * 0.02)) | currency: '$ '}}</td>
+								<td>{{(((price + ((price * 0.02))) * volume) - (price * volume)) - ((((price + ((price * 0.01))) * volume) * fee1) +  ((price * volume) * fee2)) | currency: '$ '}}</td>
+							</tr>	
+							<tr>
+								<td>3% Take</td>
+								<td>{{price + ((price * 0.03)) | currency: '$ '}}</td>
+								<td>{{(((price + ((price * 0.03))) * volume) - (price * volume)) - ((((price + ((price * 0.01))) * volume) * fee1) +  ((price * volume) * fee2)) | currency: '$ '}}</td>								
+							</tr>
+						</tbody>		
+					</table>
+				</div>
+				<div class="col-sm-3" ng-controller="MainController">
+					<table class="w3-bordered w3-small">
+						<tbody>
+							<tr>
+								<td>Price</td>
+								<td><input type="number" ng-model="calcPrice"></td>
+							</tr>
+							<tr>
+								<td>Volume</td>
+								<td><input type="number" ng-model="calcVolume"></td>
+							</tr>
+							<tr>
+								<td>Fee 1</td>
+								<td><input type="number" ng-model="fee1"></td>
+							</tr>
+							<tr>
+								<td>Fee 2</td>
+								<td><input type="number" ng-model="fee2"></td>
+							</tr>
+							<tr>
+								<td>Min out</td>
+								<td>{{calcPrice + ((calcPrice * fee1) + (calcPrice * fee2)) | currency: '$ '}}</td>								
+							</tr>
+							<tr>
+								<td>1% Take</td>
+								<td>{{calcPrice + ((calcPrice * 0.01)) | currency: '$ '}}</td>
+								<td>{{(((calcPrice + ((calcPrice * 0.01))) * calcVolume) - (calcPrice * calcVolume)) - ((((calcPrice + ((calcPrice * 0.01))) * calcVolume) * fee1) +  ((calcPrice * calcVolume) * fee2)) | currency: '$ '}}</td>
+							</tr>
+							<tr>
+								<td>1,5% Take</td>
+								<td>{{calcPrice + ((calcPrice * 0.015)) | currency: '$ '}}</td>
+								<td>{{(((calcPrice + ((calcPrice * 0.015))) * calcVolume) - (calcPrice * calcVolume)) - ((((calcPrice + ((calcPrice * 0.015))) * calcVolume) * fee1) +  ((calcPrice * calcVolume) * fee2)) | currency: '$ '}}</td>
+							</tr>		
+							<tr>
+								<td>2% Take</td>
+								<td>{{calcPrice + ((calcPrice * 0.02)) | currency: '$ '}}</td>
+								<td>{{(((calcPrice + ((calcPrice * 0.02))) * calcVolume) - (calcPrice * calcVolume)) - ((((calcPrice + ((calcPrice * 0.02))) * calcVolume) * fee1) +  ((calcPrice * calcVolume) * fee2)) | currency: '$ '}}</td>
+							</tr>
+						</tbody>		
+					</table>
+				</div>
+				<div class="col-sm-3" ng-controller="MainController">
+					<table class="w3-bordered w3-small">
+						<tbody>
+							<tr>
+								<td>Price</td>
+								<td><input type="number" ng-model="calcPrice"></td>
+							</tr>
+							<tr>
+								<td>Volume</td>
+								<td><input type="number" ng-model="calcVolume"></td>
+							</tr>
+							<tr>
+								<td>Fee 1</td>
+								<td><input type="number" ng-model="fee1"></td>
+							</tr>
+							<tr>
+								<td>Fee 2</td>
+								<td><input type="number" ng-model="fee2"></td>
+							</tr>
+							<tr>
+								<td>Min out</td>
+								<td>{{calcPrice - ((calcPrice * fee1) + (calcPrice * fee2)) | currency: '$ '}}</td>					
+							</tr>
+							<tr>
+								<td>1% Take</td>
+								<td>{{calcPrice - ((calcPrice * 0.01)) | currency: '$ '}}</td>
+								<td>{{((calcPrice * calcVolume) - ((calcPrice - ((calcPrice * 0.01))) * calcVolume)) - ((((calcPrice - ((calcPrice * 0.01))) * calcVolume) * fee1) +  ((calcPrice * calcVolume) * fee2)) | currency: '$ '}}</td>
+							</tr>	
+							<tr>
+								<td>2% Take</td>
+								<td>{{calcPrice - ((calcPrice * 0.02)) | currency: '$ '}}</td>
+								<td>{{((calcPrice * calcVolume) - ((calcPrice - ((calcPrice * 0.02))) * calcVolume)) - ((((calcPrice - ((calcPrice * 0.02))) * calcVolume) * fee1) +  ((calcPrice * calcVolume) * fee2)) | currency: '$ '}}</td>
+							</tr>	
+							<tr>
+								<td>3% Take</td>
+								<td>{{calcPrice - ((calcPrice * 0.03)) | currency: '$ '}}</td>
+								<td>{{((calcPrice * calcVolume) - ((calcPrice - ((calcPrice * 0.03))) * calcVolume)) - ((((calcPrice - ((calcPrice * 0.03))) * calcVolume) * fee1) +  ((calcPrice * calcVolume) * fee2)) | currency: '$ '}}</td>
+							</tr>						
+						</tbody>		
+					</table>
+				</div>
+
+				<div class="col-sm-3" ng-controller="MainController">
+					<table class="w3-bordered w3-small">
+						<tbody>
+							<tr>
+								<td>Short|VLM</td>
+								<td><input type="number" ng-model="volume"></td>
+								<td>{{price * volume | currency: '$ '}}</td>
+							</tr>
+							<tr>
+								<td>Price</td>
+								<td><input type="number" ng-model="price"></td>
+							</tr>
+							<tr>
+								<td>Fee 1</td>
+								<td><input type="number" ng-model="fee1"></td>
+							</tr>
+							<tr>
+								<td>Fee 2</td>
+								<td><input type="number" ng-model="fee2"></td>
+							</tr>
+							<tr>
+								<td>Min out</td>
+								<td>{{price - ((price * fee1) + (price * fee2)) | currency: '$ '}}</td>
+								
+							</tr>
+							<tr>
+								<td>1% Take</td>
+								<td>{{price - ((price * 0.01)) | currency: '$ '}}</td>
+								<td>{{((price * volume) - ((price - ((price * 0.01))) * volume)) - ((((price - ((price * 0.01))) * volume) * fee1) +  ((price * volume) * fee2)) | currency: '$ '}}</td>
+							</tr>		
+							<tr>
+								<td>2% Take</td>
+								<td>{{price - ((price * 0.02)) | currency: '$ '}}</td>
+								<td>{{((price * volume) - ((price - ((price * 0.02))) * volume)) - ((((price - ((price * 0.01))) * volume) * fee1) +  ((price * volume) * fee2)) | currency: '$ '}}</td>
+							</tr>	
+							<tr>
+								<td>3% Take</td>
+								<td>{{price - ((price * 0.03)) | currency: '$ '}}</td>
+								<td>{{((price * volume) - ((price - ((price * 0.03))) * volume)) - ((((price - ((price * 0.01))) * volume) * fee1) +  ((price * volume) * fee2)) | currency: '$ '}}</td>								
+							</tr>																						
+						</tbody>		
+					</table>
+				</div>
+			</div>
+
+			<div ng-view></div>
+
+		</div>			
+	</main>
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	<script src="angular/angular.min.js"></script>
+	<script src="angular/angular-animate.js"></script>
+	<script src="angular/angular-route.min.js"></script>
+	<script src="script.js"></script>	
+	<script src="controllers/main-controller.js"></script>
+	<script src="controllers/glass-controller.js"></script>
+</body>
+</html>

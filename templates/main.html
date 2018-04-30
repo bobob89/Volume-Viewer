@@ -1,0 +1,177 @@
+<div>
+	
+	<div class="row myInputs">
+		<div class="col-md-3">
+			<div class="input-group">
+				<span class="input-group-addon">Limit for filter</span>
+				<input type="text" class="form-control" ng-model="limitAmount">
+			</div>
+		</div>
+		<div class="col-md-3">
+			<div class="input-group">
+				<span class="input-group-addon">Traid Pair</span>
+				<input type="text" class="form-control" ng-model="traidPair" ng-disabled="true">
+			</div>
+		</div>		
+		<div class="col-md-3">
+			<div class="btn btn-warning" style="color: #212529;" ng-click="resetAll()"><strong>Reset</strong></div>
+			<div class="btn btn-warning" style="color: #212529;" ng-click="resetCounter()"><strong>ResetCounter</strong></div>
+			<button type="button" class="btn btn-info" data-toggle="modal" data-target="#helpModal">Help</button>
+		</div>	
+
+		<div class="col-md-3">
+			<div class="input-group">
+				<span class="input-group-addon">Start sime</span>
+				<input type="text" class="form-control" ng-model="timeNow" ng-disabled="true">
+			</div>
+		</div>
+	</div>	
+
+	<!-- counter -->
+
+		<div class="col-md-1">
+			<table class="myTable phoneHideDiv">
+				<thead>
+					<tr style="text-align: center;">
+						<th width="49%">AmountN</th>
+						<th width="49%">Count</th>
+
+					</tr>
+				</thead>	
+
+				<tbody>
+					<tr ng-repeat="deal in listOfDeal" ng-style="((amount > 10) && (amountName > 0)) && { background:'#ceffed'} || ((amount > 10) && (amountName < 0)) && { background:'#ffd6d6'}">
+						<td>{{deal.amountName | number}}</td>
+						<td>{{deal.amount | number : 0 }}</td>
+
+					</tr>
+				</tbody>	
+			</table>
+		</div>
+
+<!-- Buys -->
+	<div class="row">
+		<div class="col-md-4 col-sm-6 col-xs-6" style="padding-right: 0px;">
+			<table class="myTable">
+				<thead>
+					<tr style="background: #b5b5b5; text-align: center;">
+
+						<th class="phoneHideDiv" width="20%">Time</th>
+						<th width="20%">Amount</th>
+						<th width="25%">Price</th>
+						<th class="phoneHideDiv" width="35%" title="Total amount in buy filter table">{{totalBigBuy | number}}</th>
+					</tr>
+				</thead>	
+				<tbody>
+					<tr ng-repeat="buy in buys" ng-style="		
+							(buy.price * buy.amount > 0 && buy.price * buy.amount <= 10000) && { background:'#afffb1'} ||
+							(buy.price * buy.amount > 10000 && buy.price * buy.amount <= 30000) && { background:'#6bba6d'} ||
+							(buy.price * buy.amount > 30000 && buy.price * buy.amount <= 100000) && { background:'#3a753c', color: '#cccccc'} ||
+							(buy.price * buy.amount > 100000) && { background:'#204421', color: '#cccccc'}"
+							>
+						<td class="phoneHideDiv">{{buy.dateTime}}</td>
+						<td>{{buy.amount | number}}</td>
+						<td>{{buy.price | currency : '$ '}}</td>
+						<td class="phoneHideDiv">{{buy.price * buy.amount | currency : '$ '}}</td>
+					</tr>
+				</tbody>		
+			</table>
+		</div>
+
+
+
+<!-- ЦЕНТР тест-->	
+
+		<!-- ЦЕНТР -->		
+		<div class="col-md-4" style="padding: 0px;">
+			<table class="myTable phoneHideDiv">
+				<thead>
+					<tr style="text-align: center;" ng-style="(totalBuy > totalSell) && { background:'#4AA329'} || (totalBuy < totalSell) && { background:'#B52D43'}">
+						<th style="font-size: 16px;" width="32%">{{totalBuy | number}}</th>
+<!-- 						<th width="20%">T/Amnt</th> -->
+						<th style="font-size: 16px; background: white" width="36%" colspan="2">{{price | currency : '$ '}}</th>
+						<th style="font-size: 16px;" width="32%"> {{totalSell | number }}</th>
+
+					</tr>
+				</thead>	
+
+				<tbody>
+					<tr ng-repeat="deal in allDeals" ng-style="
+							(deal.price * deal.amount > 0 && deal.price * deal.amount <= 10000) && { background:'#afffb1'} ||
+							(deal.price * deal.amount > 10000 && deal.price * deal.amount <= 30000) && { background:'#6bba6d'} ||
+							(deal.price * deal.amount > 30000 && deal.price * deal.amount <= 100000) && { background:'#3a753c', color: '#cccccc'} ||
+							(deal.price * deal.amount > 100000) && { background:'#204421', color: '#cccccc'} ||
+							(deal.price * deal.amount < 0 && deal.price * deal.amount >= -10000) && { background:'#ff8787'} ||
+							(deal.price * deal.amount < 10000 && deal.price * deal.amount >= -30000) && { background:'#af5959'} ||
+							(deal.price * deal.amount < 30000 && deal.price * deal.amount >= -100000) && { background:'#721515', color: '#cccccc'} ||
+							(deal.price * deal.amount < -100000) && { background:'#440909', color: '#cccccc'}
+							">
+						<td>{{deal.dateTime}}</td>
+						<td>{{deal.amount | number }}</td>
+						<td>{{deal.price | currency : '$ '}}</td>
+						<td>{{deal.price * deal.amount | currency : '$ '}}</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+
+	<!-- sells -->
+		<div class="col-md-4 col-sm-6 col-xs-6" style="padding-left: 0px;">
+			<table class="myTable">
+				<thead>
+					<tr style="background: #b5b5b5; text-align: center;">
+						<th class="phoneHideDiv" width="20%">Time</th>
+						<th width="20%">Amount</th>
+						<th width="25%">Price</th>
+						<th  class="phoneHideDiv" width="35%" title="Total amount in sell filter table">{{totalBigSell | number}}</th>
+					</tr>
+				</thead>	
+				<tbody>
+					<tr ng-repeat="sell in sells" ng-style="
+							(sell.price * sell.amount < 0 && sell.price * sell.amount >= -10000) && { background:'#ff8787'} ||
+							(sell.price * sell.amount < 10000 && sell.price * sell.amount >= -30000) && { background:'#af5959'} ||
+							(sell.price * sell.amount < 30000 && sell.price * sell.amount >= -100000) && { background:'#721515', color: '#cccccc'} ||
+							(sell.price * sell.amount < -100000) && { background:'#440909', color: '#cccccc'}">
+						<td class="phoneHideDiv">{{sell.dateTime}}</td>
+						<td>{{sell.amount | number}}</td>
+						<td>{{sell.price | currency : '$ '}}</td>
+						<td class="phoneHideDiv">{{sell.price * sell.amount | currency : '$ '}}</td>
+					</tr>
+				</tbody>		
+			</table>
+		</div>
+	</div>
+
+	<!-- Modal -->
+	<div class="modal fade" id="helpModal" role="dialog">
+		<div class="modal-dialog">
+
+			<!-- Modal content-->
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<h4 class="modal-title">Help</h4>
+				</div>
+				<div class="modal-body">
+					<p>Используется публичный API биржи bitfinex</p>
+					<p>Ввыдите в поле <strog>"Limit for filter"</strog> количество актива по которомы вы бы хотели производить фильтр. В центре вы видите все сделки совершаемые на текущий момент. Справа и слева отображены таблицы покупки и продажи, больше или меньше установленного лимита. </p>
+					<p>Кнопка Reset ощищает таблицы, но не разрывает соединение с bitfinex API</p>
+					<p><strog>Start time</strog> - время запуска страницы или время последнего нажатия <strog>Reset</strog></p>
+					<p>Вы можете добавить в адрес любую из торговых пар в URL в виде: <strog>http://akarpenko.org/btcusd</strog></p>
+					<p>Список торговых пар:</p>
+					<p><h6 style="color: #777777"><pre>BTCUSD LTCUSD LTCBTC ETHUSD ETHBTC ETCBTC ETCUSD RRTUSD RRTBTC ZECUSD ZECBTC XMRUSD XMRBTC DSHUSD DSHBTC BTCEUR XRPUSD XRPBTC IOTUSD IOTBTC IOTETH EOSUSD EOSBTC EOSETH SANUSD SANBTC SANETH OMGUSD OMGBTC OMGETH BCHUSD BCHBTC BCHETH NEOUSD NEOBTC NEOETH ETPUSD ETPBTC ETPETH QTMUSD QTMBTC QTMETH AVTUSD AVTBTC AVTETH EDOUSD EDOBTC EDOETH BTGUSD BTGBTC DATUSD DATBTC DATETH QSHUSD QSHBTC QSHETH YYWUSD YYWBTC YYWETH GNTUSD GNTBTC GNTETH SNTUSD SNTBTC SNTETH IOTEUR BATUSD BATBTC BATETH MNAUSD MNABTC MNAETH FUNUSD FUNBTC FUNETH ZRXUSD ZRXBTC ZRXETH TNBUSD TNBBTC TNBETH SPKUSD SPKBTC SPKETH TRXUSD TRXBTC TRXETH RCNUSD RCNBTC RCNETH RLCUSD RLCBTC RLCETH AIDUSD AIDBTC AIDETH SNGUSD SNGBTC SNGETH REPUSD REPBTC REPETH ELFUSD ELFBTC ELFETH </pre><h6></p>
+					<p>Автора нет, создано искуственным интелектом, оплачено из благотворительного фонда свидетелей онлайн торгов хамахи (когда он шортил от 20к ночь на публику).</p>
+					<p>There are no fundamental reasons! (с)</p>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+				</div>
+			</div>
+
+		</div>
+	</div>
+
+
+</div>
+
+
